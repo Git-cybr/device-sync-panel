@@ -12,9 +12,10 @@ interface TelemetryData {
 
 interface TelemetryCardsProps {
   deviceId: string;
+  onDataUpdate?: (data: { hr: number; spo2: number; temp: number }) => void;
 }
 
-const TelemetryCards = ({ deviceId }: TelemetryCardsProps) => {
+const TelemetryCards = ({ deviceId, onDataUpdate }: TelemetryCardsProps) => {
   const [latestData, setLatestData] = useState<TelemetryData | null>(null);
 
   useEffect(() => {
@@ -32,7 +33,9 @@ const TelemetryCards = ({ deviceId }: TelemetryCardsProps) => {
           filter: `device_id=eq.${deviceId}`,
         },
         (payload) => {
-          setLatestData(payload.new as TelemetryData);
+          const newData = payload.new as TelemetryData;
+          setLatestData(newData);
+          onDataUpdate?.(newData);
         }
       )
       .subscribe();
@@ -53,6 +56,7 @@ const TelemetryCards = ({ deviceId }: TelemetryCardsProps) => {
 
     if (data && !error) {
       setLatestData(data);
+      onDataUpdate?.(data);
     }
   };
 

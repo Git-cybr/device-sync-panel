@@ -8,6 +8,8 @@ import { LogOut, Activity } from "lucide-react";
 import DeviceSelector from "@/components/DeviceSelector";
 import TelemetryCards from "@/components/TelemetryCards";
 import TelemetryChart from "@/components/TelemetryChart";
+import HealthAnalysis from "@/components/HealthAnalysis";
+import HealthChat from "@/components/HealthChat";
 import AddDeviceDialog from "@/components/AddDeviceDialog";
 
 const Dashboard = () => {
@@ -16,6 +18,7 @@ const Dashboard = () => {
   const [user, setUser] = useState<User | null>(null);
   const [selectedDeviceId, setSelectedDeviceId] = useState<string>("");
   const [refreshKey, setRefreshKey] = useState(0);
+  const [latestVitals, setLatestVitals] = useState<{hr: number; spo2: number; temp: number} | null>(null);
 
   useEffect(() => {
     // Check if user is logged in
@@ -82,8 +85,19 @@ const Dashboard = () => {
 
         {selectedDeviceId ? (
           <div className="space-y-8">
-            <TelemetryCards deviceId={selectedDeviceId} />
+            <TelemetryCards deviceId={selectedDeviceId} onDataUpdate={setLatestVitals} />
             <TelemetryChart deviceId={selectedDeviceId} />
+            
+            {latestVitals && (
+              <div className="grid gap-8 md:grid-cols-2">
+                <HealthAnalysis 
+                  hr={latestVitals.hr} 
+                  spo2={latestVitals.spo2} 
+                  temp={latestVitals.temp} 
+                />
+                <HealthChat />
+              </div>
+            )}
           </div>
         ) : (
           <div className="text-center py-12">
