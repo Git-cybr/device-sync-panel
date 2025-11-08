@@ -69,8 +69,9 @@ const TelemetryCards = ({ deviceId, onDataUpdate }: TelemetryCardsProps) => {
   }
 
   return (
-    <div className="grid gap-4 md:grid-cols-3">
-      <Card>
+    <div className="space-y-4">
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Heart Rate</CardTitle>
           <Activity className="h-4 w-4 text-primary" />
@@ -102,6 +103,7 @@ const TelemetryCards = ({ deviceId, onDataUpdate }: TelemetryCardsProps) => {
           <p className="text-xs text-muted-foreground mt-1">°C</p>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 };

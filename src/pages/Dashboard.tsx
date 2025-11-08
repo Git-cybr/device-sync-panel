@@ -11,6 +11,7 @@ import TelemetryChart from "@/components/TelemetryChart";
 import HealthAnalysis from "@/components/HealthAnalysis";
 import HealthChat from "@/components/HealthChat";
 import AddDeviceDialog from "@/components/AddDeviceDialog";
+import AIAssistantButton from "@/components/AIAssistantButton";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Dashboard = () => {
   const [selectedDeviceId, setSelectedDeviceId] = useState<string>("");
   const [refreshKey, setRefreshKey] = useState(0);
   const [latestVitals, setLatestVitals] = useState<{hr: number; spo2: number; temp: number} | null>(null);
+  const [showAISection, setShowAISection] = useState(false);
 
   useEffect(() => {
     // Check if user is logged in
@@ -89,6 +91,12 @@ const Dashboard = () => {
             <TelemetryChart deviceId={selectedDeviceId} />
             
             {latestVitals && (
+              <div className="flex justify-center">
+                <AIAssistantButton onClick={() => setShowAISection(!showAISection)} />
+              </div>
+            )}
+            
+            {showAISection && latestVitals && (
               <div className="grid gap-8 md:grid-cols-2">
                 <HealthAnalysis 
                   hr={latestVitals.hr} 
