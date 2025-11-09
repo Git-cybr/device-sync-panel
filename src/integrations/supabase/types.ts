@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      alerts: {
+        Row: {
+          alert_type: string
+          created_at: string
+          id: string
+          is_read: boolean | null
+          message: string
+          report_id: string | null
+          user_id: string
+        }
+        Insert: {
+          alert_type: string
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          message: string
+          report_id?: string | null
+          user_id: string
+        }
+        Update: {
+          alert_type?: string
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          message?: string
+          report_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alerts_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "reports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       devices: {
         Row: {
           created_at: string | null
@@ -37,22 +75,76 @@ export type Database = {
       }
       profiles: {
         Row: {
+          age: number | null
           created_at: string | null
           email: string
           full_name: string | null
+          gender: string | null
           id: string
+          tb_treatment_history: string | null
         }
         Insert: {
+          age?: number | null
           created_at?: string | null
           email: string
           full_name?: string | null
+          gender?: string | null
           id: string
+          tb_treatment_history?: string | null
         }
         Update: {
+          age?: number | null
           created_at?: string | null
           email?: string
           full_name?: string | null
+          gender?: string | null
           id?: string
+          tb_treatment_history?: string | null
+        }
+        Relationships: []
+      }
+      reports: {
+        Row: {
+          ai_analysis: Json | null
+          file_name: string
+          file_path: string
+          file_size: number | null
+          has_abnormal_findings: boolean | null
+          id: string
+          notes: string | null
+          report_date: string | null
+          report_type: string
+          title: string
+          upload_date: string
+          user_id: string
+        }
+        Insert: {
+          ai_analysis?: Json | null
+          file_name: string
+          file_path: string
+          file_size?: number | null
+          has_abnormal_findings?: boolean | null
+          id?: string
+          notes?: string | null
+          report_date?: string | null
+          report_type: string
+          title: string
+          upload_date?: string
+          user_id: string
+        }
+        Update: {
+          ai_analysis?: Json | null
+          file_name?: string
+          file_path?: string
+          file_size?: number | null
+          has_abnormal_findings?: boolean | null
+          id?: string
+          notes?: string | null
+          report_date?: string | null
+          report_type?: string
+          title?: string
+          upload_date?: string
+          user_id?: string
         }
         Relationships: []
       }
