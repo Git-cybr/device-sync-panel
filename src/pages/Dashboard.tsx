@@ -117,37 +117,43 @@ const Dashboard = () => {
           <AddDeviceDialog onDeviceAdded={handleDeviceAdded} />
         </div>
 
-        {selectedDeviceId ? (
-          <div className="space-y-8">
-            <TelemetryCards deviceId={selectedDeviceId} onDataUpdate={setLatestVitals} />
-            <TelemetryChart deviceId={selectedDeviceId} />
-            
-            {latestVitals && (
-              <div className="flex justify-center">
-                <AIAssistantButton onClick={() => setShowAISection(!showAISection)} />
-              </div>
-            )}
-            
-            {showAISection && latestVitals && (
-              <div className="grid gap-8 md:grid-cols-2">
+        <div className="space-y-8">
+          {selectedDeviceId && (
+            <>
+              <TelemetryCards deviceId={selectedDeviceId} onDataUpdate={setLatestVitals} />
+              <TelemetryChart deviceId={selectedDeviceId} />
+            </>
+          )}
+          
+          {!selectedDeviceId && (
+            <div className="text-center py-12">
+              <Activity className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+              <h2 className="text-xl font-semibold text-foreground mb-2">No Device Selected</h2>
+              <p className="text-muted-foreground mb-4">
+                Select a device from the dropdown above or add a new device to view telemetry data
+              </p>
+            </div>
+          )}
+
+          <div className="flex justify-center">
+            <AIAssistantButton onClick={() => setShowAISection(!showAISection)} />
+          </div>
+          
+          {showAISection && (
+            <div className="grid gap-8 md:grid-cols-2">
+              {latestVitals ? (
                 <HealthAnalysis 
                   hr={latestVitals.hr} 
                   spo2={latestVitals.spo2} 
                   temp={latestVitals.temp} 
                 />
-                <HealthChat />
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <Activity className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-foreground mb-2">No Device Selected</h2>
-            <p className="text-muted-foreground">
-              Select a device from the dropdown above or add a new device to get started
-            </p>
-          </div>
-        )}
+              ) : (
+                <HealthAnalysis />
+              )}
+              <HealthChat />
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );

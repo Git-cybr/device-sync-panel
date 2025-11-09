@@ -6,9 +6,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 interface HealthAnalysisProps {
-  hr: number;
-  spo2: number;
-  temp: number;
+  hr?: number;
+  spo2?: number;
+  temp?: number;
 }
 
 const HealthAnalysis = ({ hr, spo2, temp }: HealthAnalysisProps) => {
@@ -19,22 +19,49 @@ const HealthAnalysis = ({ hr, spo2, temp }: HealthAnalysisProps) => {
   const analyzeVitals = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("analyze-vitals", {
-        body: { hr, spo2, temp, type: "analyze" },
-      });
-
-      if (error) throw error;
-
-      if (data?.error) {
-        toast({
-          title: "Error",
-          description: data.error,
-          variant: "destructive",
+      // If no vitals data, provide general health guidance
+      if (!hr && !spo2 && !temp) {
+        const { data, error } = await supabase.functions.invoke("health-chat", {
+          body: { 
+            messages: [
+              { 
+                role: "user", 
+                content: "Provide general health guidance and tips for maintaining good health. Include advice on heart health, respiratory health, and temperature monitoring." 
+              }
+            ] 
+          },
         });
-        return;
-      }
 
-      setAnalysis(data.analysis);
+        if (error) throw error;
+        
+        if (data?.error) {
+          toast({
+            title: "Error",
+            description: data.error,
+            variant: "destructive",
+          });
+          return;
+        }
+
+        setAnalysis(data.response || "Connect a device to get personalized health analysis based on your vitals.");
+      } else {
+        const { data, error } = await supabase.functions.invoke("analyze-vitals", {
+          body: { hr, spo2, temp, type: "analyze" },
+        });
+
+        if (error) throw error;
+
+        if (data?.error) {
+          toast({
+            title: "Error",
+            description: data.error,
+            variant: "destructive",
+          });
+          return;
+        }
+
+        setAnalysis(data.analysis);
+      }
     } catch (error) {
       console.error("Error analyzing vitals:", error);
       toast({
@@ -57,20 +84,27 @@ const HealthAnalysis = ({ hr, spo2, temp }: HealthAnalysisProps) => {
       </CardHeader>
       <CardContent className="space-y-4">
         {!analysis && (
-          <Button
-            onClick={analyzeVitals}
-            disabled={loading}
-            className="w-full"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Analyzing...
-              </>
-            ) : (
-              "Analyze Current Vitals"
+          <>
+            {!hr && !spo2 && !temp && (
+              <p className="text-sm text-muted-foreground mb-4">
+                Get general health guidance or connect a device for personalized analysis.
+              </p>
             )}
-          </Button>
+            <Button
+              onClick={analyzeVitals}
+              disabled={loading}
+              className="w-full"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Analyzing...
+                </>
+              ) : (
+                hr && spo2 && temp ? "Analyze Current Vitals" : "Get Health Guidance"
+              )}
+            </Button>
+          </>
         )}
         
         {analysis && (
