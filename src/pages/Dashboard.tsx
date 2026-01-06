@@ -5,7 +5,7 @@ import { User } from "@supabase/supabase-js";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut, Activity, FileText, User as UserIcon } from "lucide-react";
+import { LogOut, Activity, FileText, User as UserIcon, HeartPulse } from "lucide-react";
 import DeviceSelector from "@/components/DeviceSelector";
 import TelemetryCards from "@/components/TelemetryCards";
 import TelemetryChart from "@/components/TelemetryChart";
@@ -79,11 +79,24 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card">
+      <header className="border-b border-border bg-gradient-to-r from-card via-card to-primary/5">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Activity className="h-8 w-8 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground">Health Dashboard</h1>
+            <div className="relative">
+              <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-lg shadow-primary/20">
+                <HeartPulse className="h-7 w-7 text-primary-foreground" />
+              </div>
+              <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-green-500 border-2 border-card animate-pulse" />
+            </div>
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-bold tracking-tight">
+                <span className="text-primary">VITAL</span>
+                <span className="text-foreground">iT</span>
+              </h1>
+              <span className="text-xs text-muted-foreground font-medium tracking-wide">
+                Smart Health Monitoring
+              </span>
+            </div>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => navigate("/reports")} className="relative">
