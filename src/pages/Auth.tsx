@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
-import { Activity } from "lucide-react";
+import { HeartPulse } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -100,9 +100,17 @@ const Auth = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <div className="w-full max-w-md">
-        <div className="flex items-center justify-center mb-8">
-          <Activity className="h-12 w-12 text-primary mr-3" />
-          <h1 className="text-3xl font-bold text-foreground">Telemetry Hub</h1>
+        <div className="flex flex-col items-center justify-center mb-8">
+          <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-lg shadow-primary/20 mb-4">
+            <HeartPulse className="h-9 w-9 text-primary-foreground" />
+          </div>
+          <h1 className="text-3xl font-bold tracking-tight">
+            <span className="text-primary">VITAL</span>
+            <span className="text-foreground">iT</span>
+          </h1>
+          <span className="text-sm text-muted-foreground font-medium tracking-wide mt-1">
+            Smart Health Monitoring
+          </span>
         </div>
 
         <Tabs defaultValue="signin" className="w-full">
