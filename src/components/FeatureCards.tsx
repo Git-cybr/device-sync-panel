@@ -51,8 +51,8 @@ const FeatureCards = ({ onOpenAIAssistant, onOpenSymptomChecker }: FeatureCardsP
   const features = [
     {
       icon: <Stethoscope className="h-6 w-6" />,
-      title: "Liver Disease Prediction",
-      description: "Advanced AI-powered liver disease screening and diagnosis support",
+      title: "Disease Prediction",
+      description: "AI-powered disease screening and early diagnosis support for various conditions",
       variant: "primary" as const,
     },
     {
