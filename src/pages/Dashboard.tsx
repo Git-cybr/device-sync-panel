@@ -13,6 +13,8 @@ import HealthAnalysis from "@/components/HealthAnalysis";
 import HealthChat from "@/components/HealthChat";
 import AddDeviceDialog from "@/components/AddDeviceDialog";
 import AIAssistantButton from "@/components/AIAssistantButton";
+import FeatureCards from "@/components/FeatureCards";
+import HealthDisclaimer from "@/components/HealthDisclaimer";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -121,6 +123,24 @@ const Dashboard = () => {
       </header>
 
       <main className="container mx-auto px-4 py-8">
+        {/* Welcome Section */}
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold text-primary mb-3">Welcome to VITALiT</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Your personal health assistant is here to help you understand symptoms, learn about treatments, 
+            find medicines, and monitor your vitals. We're here to guide you with care and accurate information.
+          </p>
+        </div>
+
+        {/* Feature Cards */}
+        <div className="mb-10">
+          <FeatureCards 
+            onOpenAIAssistant={() => setShowAISection(true)} 
+            onOpenSymptomChecker={() => setShowAISection(true)} 
+          />
+        </div>
+
+        {/* Device & Telemetry Section */}
         <div className="mb-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
           <DeviceSelector
             selectedDeviceId={selectedDeviceId}
@@ -166,6 +186,9 @@ const Dashboard = () => {
               <HealthChat />
             </div>
           )}
+
+          {/* Health Disclaimer */}
+          <HealthDisclaimer />
         </div>
       </main>
     </div>
