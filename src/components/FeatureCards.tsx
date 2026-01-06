@@ -43,17 +43,29 @@ const FeatureCard = ({ icon, title, description, variant = "default", onClick }:
 );
 
 interface FeatureCardsProps {
+  onOpenDiseasePrediction: () => void;
   onOpenAIAssistant: () => void;
   onOpenSymptomChecker: () => void;
+  onOpenMedicineInfo: () => void;
+  onOpenNearbyHospitals: () => void;
+  onOpenEmergencyContacts: () => void;
 }
 
-const FeatureCards = ({ onOpenAIAssistant, onOpenSymptomChecker }: FeatureCardsProps) => {
+const FeatureCards = ({ 
+  onOpenDiseasePrediction,
+  onOpenAIAssistant, 
+  onOpenSymptomChecker,
+  onOpenMedicineInfo,
+  onOpenNearbyHospitals,
+  onOpenEmergencyContacts,
+}: FeatureCardsProps) => {
   const features = [
     {
       icon: <Stethoscope className="h-6 w-6" />,
       title: "Disease Prediction",
       description: "AI-powered disease screening and early diagnosis support for various conditions",
       variant: "primary" as const,
+      onClick: onOpenDiseasePrediction,
     },
     {
       icon: <MessageSquare className="h-6 w-6" />,
@@ -74,18 +86,21 @@ const FeatureCards = ({ onOpenAIAssistant, onOpenSymptomChecker }: FeatureCardsP
       title: "Medicine Information",
       description: "Find details about medications, dosages, and precautions",
       variant: "default" as const,
+      onClick: onOpenMedicineInfo,
     },
     {
       icon: <Building2 className="h-6 w-6" />,
       title: "Nearby Hospitals",
       description: "Locate nearby hospitals and emergency care facilities",
       variant: "default" as const,
+      onClick: onOpenNearbyHospitals,
     },
     {
       icon: <Phone className="h-6 w-6" />,
       title: "Emergency Contacts",
       description: "Quick access to emergency helplines and support services",
       variant: "default" as const,
+      onClick: onOpenEmergencyContacts,
     },
   ];
 
