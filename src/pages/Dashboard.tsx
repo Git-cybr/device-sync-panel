@@ -15,6 +15,9 @@ import AddDeviceDialog from "@/components/AddDeviceDialog";
 import AIAssistantButton from "@/components/AIAssistantButton";
 import FeatureCards from "@/components/FeatureCards";
 import HealthDisclaimer from "@/components/HealthDisclaimer";
+import EmergencyContactsDialog from "@/components/EmergencyContactsDialog";
+import MedicineInfoDialog from "@/components/MedicineInfoDialog";
+import DiseasePredictionDialog from "@/components/DiseasePredictionDialog";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -25,6 +28,11 @@ const Dashboard = () => {
   const [latestVitals, setLatestVitals] = useState<{hr: number; spo2: number; temp: number} | null>(null);
   const [showAISection, setShowAISection] = useState(false);
   const [unreadAlerts, setUnreadAlerts] = useState(0);
+  
+  // Dialog states
+  const [showEmergencyContacts, setShowEmergencyContacts] = useState(false);
+  const [showMedicineInfo, setShowMedicineInfo] = useState(false);
+  const [showDiseasePrediction, setShowDiseasePrediction] = useState(false);
 
   useEffect(() => {
     // Check if user is logged in
@@ -135,8 +143,14 @@ const Dashboard = () => {
         {/* Feature Cards */}
         <div className="mb-10">
           <FeatureCards 
+            onOpenDiseasePrediction={() => setShowDiseasePrediction(true)}
             onOpenAIAssistant={() => setShowAISection(true)} 
-            onOpenSymptomChecker={() => setShowAISection(true)} 
+            onOpenSymptomChecker={() => setShowAISection(true)}
+            onOpenMedicineInfo={() => setShowMedicineInfo(true)}
+            onOpenNearbyHospitals={() => {
+              window.open("https://www.google.com/maps/search/hospitals+near+me", "_blank");
+            }}
+            onOpenEmergencyContacts={() => setShowEmergencyContacts(true)}
           />
         </div>
 
@@ -191,6 +205,20 @@ const Dashboard = () => {
           <HealthDisclaimer />
         </div>
       </main>
+
+      {/* Dialogs */}
+      <EmergencyContactsDialog 
+        open={showEmergencyContacts} 
+        onOpenChange={setShowEmergencyContacts} 
+      />
+      <MedicineInfoDialog 
+        open={showMedicineInfo} 
+        onOpenChange={setShowMedicineInfo} 
+      />
+      <DiseasePredictionDialog 
+        open={showDiseasePrediction} 
+        onOpenChange={setShowDiseasePrediction} 
+      />
     </div>
   );
 };
